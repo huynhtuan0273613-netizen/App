@@ -9,23 +9,34 @@ jobs:
   build:
     runs-on: ubuntu-latest
     timeout-minutes: 120
+
     steps:
     - uses: actions/checkout@v4
-    
+
     - name: Set up Python
       uses: actions/setup-python@v5
       with:
         python-version: '3.9'
-    
+
     - name: Install dependencies
       run: |
         sudo apt update
         sudo apt install -y openjdk-11-jdk
         pip install buildozer cython==0.29.33
-    
+
+    - name: Accept Android SDK licenses
+      run: |
+        mkdir -p $HOME/.android
+        echo "24333f8a63b6825ea9c5514f07c2612d" > $HOME/.android/repositories.cfg
+        yes | sdkmanager --licenses || true
+
     - name: Build APK
-      run: buildozer android debug
-    
+      run: |
+        # Ép Buildozer chấp nhận license
+        export ANDROIDSDK=$HOME/.buildozer/android/platform/android-sdk
+        yes | $ANDROIDSDK/cmdline-tools/latest/bin/sdkmanager --licenses || true
+        buildozer -v android debug
+
     - name: Upload APK
       uses: actions/upload-artifact@v4
       with:
