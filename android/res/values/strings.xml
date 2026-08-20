@@ -1,1 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">SBR AUTO TYPER</string>
+    <string name="accessibility_service_description">SBR Auto Typer service allows automatic text input in other apps. This service can read your screen content to find input fields and send buttons. Enable this service to use auto-typing features.</string>
+</resources>
 
